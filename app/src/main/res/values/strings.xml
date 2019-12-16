@@ -1,3 +1,42 @@
 <resources>
-    <string name="app_name">FeitInsta</string>
+    <!-- Base application theme. -->
+    <string name="app_name">Instagram</string>
+    <string name="username_placeholder">Username</string>
+    <string name="news_label">News</string>
+    <string name="description_placeholder">Description</string>
+    <string name="posts_image">Posts Image</string>
+    <string name="like">LIKE</string>
+    <string name="share">SHARE</string>
+    <string name="likes_label">Likes</string>
+    <string name="datee">Date</string>
+    <string name="comment_placeholder">Comment</string>
+
+    <string-array name="icons">
+        <item>@drawable/shibaa</item>
+        <item>@drawable/goldenn</item>
+        <item>@drawable/germann</item>
+        <item>@drawable/rottt</item>
+    </string-array>
+
+    <string-array name="commentIcons">
+        <item>@drawable/poodlee</item>
+        <item>@drawable/pugg</item>
+        <item>@drawable/shibaa</item>
+        <item>@drawable/samoyedd</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.</item>
+        <item>The Golden Retriever is a medium-large gun dog that retrieves shot waterfowl during hunting and shooting parties. The name "retriever" refers to the breed\'s ability to retrieve shot game undamaged due to their soft mouth.</item>
+        <item>The German Shepherd is a breed of medium to large-sized working dog that originated in Germany. Despite its primitive, wolf-like appearance, the German Shepherd is a relatively modern breed of dog, with their origin dating to 1899.</item>
+        <item>The Rottweiler a breed of domestic dog. The dogs were known in German as Rottweiler Metzgerhund, meaning Rottweil butchers\' dogs, because their main use was to herd livestock and pull carts laden with butchered meat to market.</item>
+    </string-array>
+
+    <array name="posts_images">
+        <item>@drawable/shiba11</item>
+        <item>@drawable/golden1</item>
+        <item>@drawable/german</item>
+        <item>@drawable/rottweiler</item>
+    </array>
+
 </resources>
