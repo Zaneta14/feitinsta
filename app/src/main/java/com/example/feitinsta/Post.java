@@ -2,61 +2,104 @@ package com.example.feitinsta;
 
 import android.content.Context;
 import android.content.Intent;
-
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import androidx.annotation.DrawableRes;
+
+import java.util.List;
 
 public class Post {
 
-    private final User user;
-    private final String description;
-    private final int imageResource;
-    private final int numberOfLikes;
-    private final String date;
-    private final Comment comment;
+    @SerializedName("id")
+    @Expose
+    private String id;
 
-    static final String COMMENT_KEY = "Comment";
-    static final String USER_KEY = "User";
-    static final String THUMBNAIL_KEY = "Thumbnail";
+    @SerializedName("createdAt")
+    @Expose
+    private String createdAt;
 
-    Post(User user, String description, int imageResource, int numberOfLikes, String date, Comment comment) {
-        this.user = user;
-        this.description = description;
-        this.imageResource = imageResource;
-        this.numberOfLikes=numberOfLikes;
-        this.date=date;
-        this.comment=comment;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
+
+    @SerializedName("userAvatar")
+    @Expose
+    private String userAvatar;
+
+    @SerializedName("userName")
+    @Expose
+    private String userName;
+
+    @SerializedName("likes")
+    @Expose
+    private Integer likes;
+
+    @SerializedName("comments")
+    @Expose
+    private List<Comment> comments = null;
+
+    static final String POST_KEY = "Post";
+
+    public Post(String userName, Integer likes, List<Comment> comments)
+    {
+        this.userName = userName;
+        this.likes = likes;
+        this.comments=comments;
     }
 
-    User getUser() {
-        return user;
+    public String getId() {
+        return id;
     }
 
-    String getDescription() {
-        return description;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    int getImageResource() {
-        return imageResource;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    int getNumberOfLikes() {return numberOfLikes; }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-    String getDate() { return date; }
+    public String getPhoto() {
+        return photo;
+    }
 
-    Comment getComment() { return comment; }
-    /**
-     * Method for creating  the Detail Intent
-     * @param context Application context, used for launching the Intent
-     * @param title The title of the current Sport
-     * @param imageResId The image resource associated with the current sport
-     * @return The Intent containing the extras about the sport, launches Detail activity
-     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
-    static Intent starter(Context context, Comment com) {
-        Intent detailIntent = new Intent(context, DetailsActivity.class);
-        detailIntent.putExtra(COMMENT_KEY, com.getCommentt());
-        detailIntent.putExtra(USER_KEY, com.getUser().getUsername());
-        detailIntent.putExtra(THUMBNAIL_KEY, com.getUser().getImageRes());
-        return detailIntent;
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

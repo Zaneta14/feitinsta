@@ -10,6 +10,7 @@
     <string name="likes_label">Likes</string>
     <string name="datee">Date</string>
     <string name="comment_placeholder">Comment</string>
+    <string name="createdAt_placeholder">Created At</string>
 
     <string-array name="icons">
         <item>@drawable/shibaa</item>

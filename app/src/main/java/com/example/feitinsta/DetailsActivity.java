@@ -1,19 +1,26 @@
 package com.example.feitinsta;
 
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-import com.bumptech.glide.Glide;
+import com.example.feitinsta.Service.GService;
+import com.example.feitinsta.Service.GithubService;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -22,27 +29,73 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        TextView username = (TextView)findViewById(R.id.usernamee);
-        ImageView avatar = (ImageView)findViewById(R.id.avatarr);
-        TextView comment=(TextView) findViewById(R.id.comm);
+        String postid=getIntent().getStringExtra(Post.POST_KEY);
 
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setColor(Color.GRAY);
+        final RecyclerView nRecyclerView;
+        nRecyclerView = (RecyclerView)findViewById(R.id.recyclerView1);
+        nRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String kom=getIntent().getStringExtra(Post.COMMENT_KEY);
+        GService.initalizeRetrofit();
 
-        String kor=getIntent().getStringExtra(Post.USER_KEY);
+        Call<List<Comment>> comments= GService.service.commentsList(postid);
+        comments.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("fail", "unsuccessful");
+                    return;
+                }
+                List<Comment> comments1 = response.body();
+                nRecyclerView.setAdapter(new CommentsAdapter(getApplicationContext(), comments1));
+                Log.d("key", "Number of comments received: " + comments1.size());
+            }
 
-        Drawable drawable = ContextCompat.getDrawable
-                (this,getIntent().getIntExtra(Post.THUMBNAIL_KEY, 0));
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Log.d("failure1", t.getMessage());
+            }
+        });
 
-        //String[] userNames=getResources().getStringArray(R.array.usernames);
+        Button button=(Button) findViewById(R.id.button11);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String postId = getIntent().getStringExtra(Post.POST_KEY);
+                EditText editText = (EditText) findViewById(R.id.edittext);
+                String com;
+                if (editText.getText().toString().length() != 0) {
+                    com = editText.getText().toString();
+                    Comment comment = new Comment("109", postId, "17T02:52:06.003Z",
+                            "Zaneta", "https://s3.amazonaws.com/uifaces/faces/twitter/anjhero/128.jpg",
+                            com);
+                    List<Comment> comments11 = new ArrayList<>();
+                    comments11.add(comment);
+                    Post post = new Post(null, null, comments11);
 
-        TypedArray profilePics = getResources().obtainTypedArray(R.array.icons);
-
-        comment.setText(kom);
-        username.setText(kor);
-        Glide.with(this).load(getIntent().getIntExtra(Post.THUMBNAIL_KEY,0))
-                .placeholder(gradientDrawable).into(avatar);
+                    Call<Post> postCall = GService.service.putPost(postId, post);
+                    postCall.enqueue(new Callback<Post>() {
+                        @Override
+                        public void onResponse(Call<Post> call, Response<Post> response) {
+                            if (!response.isSuccessful())
+                                return;
+                            Post post = response.body();
+                            String p;
+                            String full="";
+                            for(int i=0; i<post.getComments().size(); i++) {
+                                p = post.getComments().get(i).getComment();
+                                full+=" ";
+                                full+=p;
+                            }
+                            String str=post.getCreatedAt()+" "+post.getUserName()+" "+full;
+                            Log.d("mission", str);
+                        }
+                        @Override
+                        public void onFailure(Call<Post> call, Throwable t) {
+                            Log.d("failure", t.getMessage());
+                        }
+                    });
+                }
+            }
+        });
     }
 }

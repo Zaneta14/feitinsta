@@ -15,22 +15,27 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.feitinsta.Post.POST_KEY;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
 
     private GradientDrawable mGradientDrawable;
-    private ArrayList<Post> mPostsData;
+    private List<Post> mPostsData;
     private Context mContext;
 
-    PostsAdapter(Context context, ArrayList<Post> postsData) {
+    PostsAdapter(Context context, List<Post> postsData) {
         this.mPostsData = postsData;
         this.mContext = context;
 
         mGradientDrawable = new GradientDrawable();
-        mGradientDrawable.setColor(Color.GRAY);
+        mGradientDrawable.setColor(Color.WHITE);
     }
+
     @Override
     public PostsAdapter.PostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new PostsAdapter.PostsViewHolder(mContext, LayoutInflater.from(mContext).
@@ -39,10 +44,26 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     @Override
     public void onBindViewHolder(PostsAdapter.PostsViewHolder holder, int position) {
+        holder.mUsernameText.setText(mPostsData.get(position).getUserName());
+        holder.mCreatedAt.setText(mPostsData.get(position).getCreatedAt());
+        holder.mNumOfLikes.setText(String.valueOf(mPostsData.get(position).getLikes()));
+        String image_url = mPostsData.get(position).getPhoto();
+        String avatar_url = mPostsData.get(position).getUserAvatar();
 
+        Picasso.with(mContext)
+                .load(image_url)
+                .placeholder(android.R.drawable.sym_def_app_icon)
+                .error(android.R.drawable.sym_def_app_icon)
+                .into(holder.mPostsImage);
+
+        Picasso.with(mContext)
+                .load(avatar_url)
+                .placeholder(android.R.drawable.sym_def_app_icon)
+                .error(android.R.drawable.sym_def_app_icon)
+                .into(holder.mAvatarImage);
         Post currentPost = mPostsData.get(position);
-
-        holder.bindTo(currentPost);
+        holder.mCurrentPost = currentPost;
+        //holder.bindTo(currentPost);
     }
 
     @Override
@@ -54,11 +75,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             implements View.OnClickListener {
 
         private TextView mUsernameText;
-        private TextView mDescriptionText;
+        //private TextView mDescriptionText;
         private ImageView mPostsImage;
         private ImageView mAvatarImage;
         private TextView mNumOfLikes;
-        private TextView mDate;
+        private TextView mCreatedAt;
         private Context mContext;
         private Post mCurrentPost;
         private GradientDrawable mGradientDrawable;
@@ -68,43 +89,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
             //Initialize the views
             mUsernameText = (TextView)itemView.findViewById(R.id.username);
-            mDescriptionText = (TextView)itemView.findViewById(R.id.description);
+            //mDescriptionText = (TextView)itemView.findViewById(R.id.description);
             mPostsImage = (ImageView)itemView.findViewById(R.id.postsImage);
             mAvatarImage = (ImageView)itemView.findViewById(R.id.avatar);
             mNumOfLikes = (TextView)itemView.findViewById(R.id.numoflikes);
-            mDate = (TextView)itemView.findViewById(R.id.date);
+            mCreatedAt = (TextView)itemView.findViewById(R.id.created);
             mContext = context;
             mGradientDrawable = gradientDrawable;
 
-            //Set the OnClickListener to the whole view
             itemView.setOnClickListener(this);
-        }
-
-        void bindTo(Post currentPost){
-            //Populate the textviews with data
-            mUsernameText.setText(currentPost.getUser().getUsername());
-            mDescriptionText.setText(currentPost.getDescription());
-            mNumOfLikes.setText(String.valueOf(currentPost.getNumberOfLikes()));
-            mDate.setText(currentPost.getDate());
-            //Get the current sport
-            mCurrentPost = currentPost;
-
-            //Load the images into the ImageView using the Glide library
-            Glide.with(mContext).load(currentPost.
-                    getImageResource()).placeholder(mGradientDrawable).into(mPostsImage);
-
-            Glide.with(mContext).load(currentPost.getUser().
-                    getImageRes()).placeholder(mGradientDrawable).into(mAvatarImage);
-
         }
 
         @Override
         public void onClick(View view) {
-
-            //Set up the detail intent
-            Intent detailIntent = Post.starter(mContext, mCurrentPost.getComment());
-
-            //Start the detail activity
+            Intent detailIntent = new Intent(mContext, DetailsActivity.class);
+            detailIntent.putExtra(POST_KEY, mCurrentPost.getId());
+            detailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(detailIntent);
         }
     }
