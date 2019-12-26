@@ -26,7 +26,4 @@ public interface GithubService {
 
     @POST("posts/{id}/comments")
     Call<Comment> createComment(@Path("id") String id, @Body Comment comment);
-
-    //@PATCH("posts/{id}")
-    //Call<List<Post> patchPost(@Path("id") String id, @Body Post post);
 }

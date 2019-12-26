@@ -75,6 +75,7 @@ public class DetailsActivity extends AppCompatActivity {
                             if (!response.isSuccessful())
                                 return;
                             Comment k = response.body();
+                            nRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                         @Override
                         public void onFailure(Call<Comment> call, Throwable t) {

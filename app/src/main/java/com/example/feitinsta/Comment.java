@@ -25,7 +25,6 @@ public class Comment {
     private String comment;
 
     public Comment(String postId, String createdAt, String userName, String userAvatar, String comment) {
-        //this.id=id;
         this.postId = postId;
         this.createdAt = createdAt;
         this.userName = userName;

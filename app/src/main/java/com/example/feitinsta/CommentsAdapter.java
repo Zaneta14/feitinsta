@@ -18,22 +18,18 @@ import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder>{
 
-    private GradientDrawable nGradientDrawable;
     private List<Comment> nCommentsData;
     private Context nContext;
 
     CommentsAdapter(Context context, List<Comment> commentsData) {
         this.nCommentsData = commentsData;
         this.nContext = context;
-
-        nGradientDrawable = new GradientDrawable();
-        nGradientDrawable.setColor(Color.WHITE);
     }
 
     @Override
     public CommentsAdapter.CommentsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CommentsAdapter.CommentsViewHolder(nContext, LayoutInflater.from(nContext).
-                inflate(R.layout.list_comments, parent, false), nGradientDrawable);
+                inflate(R.layout.list_comments, parent, false));
     }
 
     @Override
@@ -48,9 +44,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 .placeholder(android.R.drawable.sym_def_app_icon)
                 .error(android.R.drawable.sym_def_app_icon)
                 .into(holder.nAvatarImage);
-        /*Post currentPost = mPostsData.get(position);
-        holder.mCurrentPost = currentPost;
-        holder.bindTo(currentPost);*/
     }
 
     @Override
@@ -68,14 +61,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         //private Comment nCurrentComment;
         protected GradientDrawable mGradientDrawable;
 
-        CommentsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        CommentsViewHolder(Context context, View itemView) {
             super(itemView);
             nUsernameText = (TextView)itemView.findViewById(R.id.usernamee);
             nAvatarImage = (ImageView)itemView.findViewById(R.id.avatarr);
             nComment = (TextView) itemView.findViewById(R.id.comm);
             nCreatedAt = (TextView)itemView.findViewById(R.id.createdat);
             nContext = context;
-            mGradientDrawable = gradientDrawable;
         }
     }
 }

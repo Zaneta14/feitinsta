@@ -40,11 +40,10 @@ public class Post {
 
     static final String POST_KEY = "Post";
 
-    public Post(String userName, Integer likes, List<Comment> comments)
+    public Post(String userName, Integer likes)
     {
         this.userName = userName;
         this.likes = likes;
-        this.comments=comments;
     }
 
     public String getId() {

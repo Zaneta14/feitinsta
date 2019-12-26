@@ -24,22 +24,18 @@ import static com.example.feitinsta.Post.POST_KEY;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
 
-    private GradientDrawable mGradientDrawable;
     private List<Post> mPostsData;
     private Context mContext;
 
     PostsAdapter(Context context, List<Post> postsData) {
         this.mPostsData = postsData;
         this.mContext = context;
-
-        mGradientDrawable = new GradientDrawable();
-        mGradientDrawable.setColor(Color.WHITE);
     }
 
     @Override
     public PostsAdapter.PostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new PostsAdapter.PostsViewHolder(mContext, LayoutInflater.from(mContext).
-                inflate(R.layout.list_item, parent, false), mGradientDrawable);
+                inflate(R.layout.list_item, parent, false));
     }
 
     @Override
@@ -63,7 +59,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
                 .into(holder.mAvatarImage);
         Post currentPost = mPostsData.get(position);
         holder.mCurrentPost = currentPost;
-        //holder.bindTo(currentPost);
     }
 
     @Override
@@ -75,27 +70,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             implements View.OnClickListener {
 
         private TextView mUsernameText;
-        //private TextView mDescriptionText;
         private ImageView mPostsImage;
         private ImageView mAvatarImage;
         private TextView mNumOfLikes;
         private TextView mCreatedAt;
         private Context mContext;
         private Post mCurrentPost;
-        private GradientDrawable mGradientDrawable;
 
-        PostsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        PostsViewHolder(Context context, View itemView) {
             super(itemView);
 
-            //Initialize the views
             mUsernameText = (TextView)itemView.findViewById(R.id.username);
-            //mDescriptionText = (TextView)itemView.findViewById(R.id.description);
             mPostsImage = (ImageView)itemView.findViewById(R.id.postsImage);
             mAvatarImage = (ImageView)itemView.findViewById(R.id.avatar);
             mNumOfLikes = (TextView)itemView.findViewById(R.id.numoflikes);
             mCreatedAt = (TextView)itemView.findViewById(R.id.created);
             mContext = context;
-            mGradientDrawable = gradientDrawable;
 
             itemView.setOnClickListener(this);
         }

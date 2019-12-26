@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         GService.initalizeRetrofit();
 
-        /*Post postRequest = new Post("Stefanija Post", 1200);
+        Post postRequest = new Post("Stefanija Post", 1200);
 
         Call<Post> getPost = GService.service.createPost(postRequest);
         getPost.enqueue(new Callback<Post>() {
@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                Log.d("failure", t.getMessage());
                 return;
             }
-        });*/
+        });
 
         Call<List<Post>> posts = GService.service.getPosts();
         posts.enqueue(new Callback<List<Post>>() {
