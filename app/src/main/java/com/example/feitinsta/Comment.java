@@ -24,8 +24,8 @@ public class Comment {
     @Expose
     private String comment;
 
-    public Comment(String id, String postId, String createdAt, String userName, String userAvatar, String comment) {
-        this.id=id;
+    public Comment(String postId, String createdAt, String userName, String userAvatar, String comment) {
+        //this.id=id;
         this.postId = postId;
         this.createdAt = createdAt;
         this.userName = userName;

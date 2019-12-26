@@ -65,32 +65,19 @@ public class DetailsActivity extends AppCompatActivity {
                 String com;
                 if (editText.getText().toString().length() != 0) {
                     com = editText.getText().toString();
-                    Comment comment = new Comment("109", postId, "17T02:52:06.003Z",
+                    Comment comment = new Comment(postId, "17T02:52:06.003Z",
                             "Zaneta", "https://s3.amazonaws.com/uifaces/faces/twitter/anjhero/128.jpg",
                             com);
-                    List<Comment> comments11 = new ArrayList<>();
-                    comments11.add(comment);
-                    Post post = new Post(null, null, comments11);
-
-                    Call<Post> postCall = GService.service.putPost(postId, post);
-                    postCall.enqueue(new Callback<Post>() {
+                    Call<Comment> commentCall = GService.service.createComment(postId, comment);
+                    commentCall.enqueue(new Callback<Comment>() {
                         @Override
-                        public void onResponse(Call<Post> call, Response<Post> response) {
+                        public void onResponse(Call<Comment> call, Response<Comment> response) {
                             if (!response.isSuccessful())
                                 return;
-                            Post post = response.body();
-                            String p;
-                            String full="";
-                            for(int i=0; i<post.getComments().size(); i++) {
-                                p = post.getComments().get(i).getComment();
-                                full+=" ";
-                                full+=p;
-                            }
-                            String str=post.getCreatedAt()+" "+post.getUserName()+" "+full;
-                            Log.d("mission", str);
+                            Comment k = response.body();
                         }
                         @Override
-                        public void onFailure(Call<Post> call, Throwable t) {
+                        public void onFailure(Call<Comment> call, Throwable t) {
                             Log.d("failure", t.getMessage());
                         }
                     });
